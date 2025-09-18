@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        // create a new <p> element
+        const newParagraph = document.createElement("p");
+        // add some text inside it
+        newParagraph.textContent = "Hello";
+
+        // append it to an existing elemnet
+        document.getElementById('container').appendChild(newParagraph);
+    </script>
+</body>
+
+</html>

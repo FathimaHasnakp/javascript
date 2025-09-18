@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch api</title>
+</head>
+<body>
+    <h1>post from jsonplaceholder</h1>
+    <ul id="users"></ul>
+    <script>
+        //fetching datas from jsonplaceholder//
+        fetch("https://jsonplaceholder.typicode.com/users")
+        .then(response=>response.json()) //conver response to JSON
+        .then(data =>{
+            const userlist = document.getElementById("users");
+            //lop through first 5 post and display
+            data.slice(0,5).forEach(usr => {
+                const li = document.createElement("li");
+                li.textContent = `# ${usr.id} : ${usr.username}`;
+                userlist.appendChild(li)
+            })
+        })
+        .catch(error => console.error("error fetching dara:", error))
+    </script>
+</body>
+</html>
