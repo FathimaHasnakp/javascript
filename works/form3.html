@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: oblique;
+        }
+
+        body {
+            background: -moz-radial-gradient();
+            color: white;
+            width: 500px;
+            height: 500vh;
+        }
+
+        .container-fluid {
+            background-color: rgba(226, 9, 226, 0.432);
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+
+
+        }
+
+        .row1 {
+            display: flex;
+            gap: 120px;
+        }
+
+        .row2 {
+            display: flex;
+            gap: 120px;
+        }
+
+        .row4 {
+            display: flex;
+            gap: 170px;
+        }
+
+        .row5 {
+            display: flex;
+            gap: 120px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #ff4da6;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .errpr{
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h2>Spa Client intake Form</h2>
+        <form id="myForm" onsubmit="return validateForm()">
+
+            <label> Name</label><br>
+            <input type="text" id="name" name="name">
+            <span class="error" id="nameError"></span>
+            <label></label>
+            <input type="text" id="name" name="name">
+            <span class="error" id="nameError"></span>
+            <div class="row1">
+                <label><small>First Name</small></label>
+                <label><small>Last Name</small></label>
+            </div>
+            <br>
+
+            <label>Phone</label><br>
+            <input type="text" id="phone" name="phone">
+            <span class="error" id="phoneError"></span>
+            <br> <br>
+
+            <label>Email</label><br>
+            <input type="text" id="email" name="email">
+            <span class="error" id="emailError"></span>
+            <br> <br>
+
+            <label>Address</label><br>
+            <input type="text" id="address" name="address">
+            <span class="error" id="addressError"></span>
+            <div class="row 2">
+                <label> <small>Street address</small></label>
+            </div>
+
+            <div class="row3">
+                <input type="text"><br>
+                <label><small>Address line 2</small></label>
+            </div>
+
+            <input type="text" name="" id="">
+            <input type="text" name="" id=""><br>
+            <div class="row4">
+                <label><small>City</small></label>
+                <label><small>State/Region/Province</small></label>
+            </div>
+
+
+            <input type="text" name="" id="">
+            <input type="text" name="" id=""><br>
+            <div class="row5">
+                <label> <small>Postal/Zipcode</small></label>
+                <label> <small>Country</small></label><br><br>
+            </div>
+
+            <div class="button">
+                <button type="submit">Next</button>
+            </div>
+    </div>
+
+
+
+    <script>
+        function validateForm() {
+            // Clear previous errors
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("phoneError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("addressError").innerText = "";
+
+            let isValid = true;
+
+            // Name validation
+            const name = document.getElementById("name").value.trim();
+            if (name === "") {
+                document.getElementById("nameError").innerText = "Name is required";
+                isValid = false;
+            }
+
+            // Phone number validation
+            const phone = document.getElementById("phone").value.trim();
+            const phonePattern = /^\d{10}$/;
+            if (!phonePattern.test(phone)) {
+                document.getElementById("phoneError").innerText = "Phone number must be 10 digits";
+                isValid = false;
+            }
+
+            // Email validation
+            const email = document.getElementById("email").value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText = "Invalid email format";
+                isValid = false;
+            }
+
+
+
+            // address validation
+            const address = document.getElementById("address").value.trim();
+            const addressPattern = /^[a-zA-Z0-9\s,.-]{5,}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("addressError").innerText = "Invalid email format";
+                isValid = false;
+            }
+
+
+
+        }
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>

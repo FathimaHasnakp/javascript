@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Management</title>
+ <style>
+  * {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #353834;
+  padding: 20px;
+}
+
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background : rgb(0, 0, 255);
+  color: #fff;
+  padding: 15px;
+  border-radius: 6px 6px 0 0;
+}
+
+header h2 span {
+  font-weight: bold;
+}
+
+.btn-group button {
+  background: #fff;
+  color: #060a0e;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-group button:hover {
+  background: #e3f2fd;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  background: #f1f1f1;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+}
+
+.name-cell img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 8px;
+  font-size: 16px;
+}
+.action-btn.edit { color: #2196f3; }
+.action-btn.delete { color: #f44336; }
+
+.pagination {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pagination button {
+  margin: 0 3px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  background: #ddd;
+  cursor: pointer;
+}
+.pagination button.active {
+  background: #2196f3;
+  color: #fff;
+}
+
+ </style>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h2>User <span>Management</span></h2>
+      <div class="btn-group">
+        <button id="exportBtn">Export to Excel</button>
+        <button id="addUserBtn">+ Add New User</button>
+      </div>
+    </header>
+
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Date Created</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be inserted by JavaScript -->
+      </tbody>
+    </table>
+
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <script >
+    const users = [
+  { name: 'Michael Holz', date: '04/10/2013', role: 'Admin', status: 'Active', img: 'https://i.pravatar.cc/50?img=1' },
+  { name: 'Paula Wilson', date: '05/08/2014', role: 'Publisher', status: 'Active', img: 'https://i.pravatar.cc/50?img=2' },
+  { name: 'Antonio Moreno', date: '11/05/2015', role: 'Publisher', status: 'Suspended', img: 'https://i.pravatar.cc/50?img=3' },
+  { name: 'Mary Saveley', date: '06/09/2016', role: 'Reviewer', status: 'Active', img: 'https://i.pravatar.cc/50?img=4' },
+  { name: 'Martin Sommer', date: '12/08/2017', role: 'Moderator', status: 'Inactive', img: 'https://i.pravatar.cc/50?img=5' },
+  // Add more users if you like
+];
+
+const rowsPerPage = 5;
+let currentPage = 1;
+
+function renderTable() {
+  const tbody = document.querySelector('#userTable tbody');
+  tbody.innerHTML = '';
+
+  const start = (currentPage - 1) * rowsPerPage;
+  const paginatedUsers = users.slice(start, start + rowsPerPage);
+
+  paginatedUsers.forEach((u, i) => {
+    const tr = document.createElement('tr');
+
+    const statusColor = u.status === 'Active' ? 'green' : u.status === 'Inactive' ? 'goldenrod' : 'red';
+
+    tr.innerHTML = `
+      <td>${start + i + 1}</td>
+      <td class="name-cell"><img src="${u.img}" alt="${u.name}"/>${u.name}</td>
+      <td>${u.date}</td>
+      <td>${u.role}</td>
+      <td><span class="status-dot" style="background:${statusColor};"></span>${u.status}</td>
+      <td>
+        <button class="action-btn edit">⚙</button>
+        <button class="action-btn delete">❌ </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  renderPagination();
+}
+
+function renderPagination() {
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+  const pageCount = Math.ceil(users.length / rowsPerPage);
+
+  for (let i = 1; i <= pageCount; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    btn.classList.toggle('active', i === currentPage);
+    btn.onclick = () => { currentPage = i; renderTable(); };
+    pagination.appendChild(btn);
+  }
+}
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const table = document.getElementById('userTable').outerHTML;
+  const blob = new Blob([table], { type: 'application/vnd.ms-excel' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'user-management.xls';
+  link.click();
+});
+
+renderTable();
+
+  </script>
+</body>
+</html>

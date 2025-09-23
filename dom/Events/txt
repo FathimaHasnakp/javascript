@@ -1,0 +1,9 @@
+Event is an action or occurance  that happens in the browser
+eg: a user clicking button
+    mouse hover
+    form submit
+ event listeners = an even listener is a function thats wait for a event  to occur on html element and thn execute code in response(website interace cheyyan)
+ uses= to make interact website
+       to sepparate html and js
+
+event handling= waiting js code that will run when a specific event occure  

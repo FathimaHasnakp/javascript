@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form Validation</title>
+    <style>
+                body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+
+        }
+
+        input {
+            padding: 8px;
+            width: 300px;
+            display: block;
+            margin: 10px 0;
+        }
+
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+<h2> <b>Register Form</b> </h2>
+    <form onsubmit="return validateForm()">
+        <label>Name:</label>
+        <input type="text" id="name"><span id="nameError" class="error"></span><br><br>
+
+        <label>Email:</label>
+        <input type="text" id="email"><span id="emailError" class="error"></span><br><br>
+
+        <label>Age:</label>
+        <input type="text" id="age"><span id="ageError" class="error"></span><br><br>
+
+        <label>Gender:</label>
+        <select id="gender">
+            <!-- <option value="">--Select--</option> -->
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <span id="genderError" class="error"></span><br><br>
+
+        <label>Password:</label>
+        <input type="password" id="password"><span id="passwordError" class="error"></span><br><br>
+
+        <label>Confirm Password:</label>
+        <input type="password" id="confirmPassword"><span id="confirmPasswordError" class="error"></span><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("ageError").innerText = "";
+            document.getElementById("genderError").innerText = "";
+            document.getElementById("passwordError").innerText = "";
+            document.getElementById("confirnpasswordError").innerText = "";
+
+
+
+
+            let isValid = true;
+
+            // clear errors
+            document.querySelectorAll(".error").forEach(e => e.innerText = "");
+
+            // name validation
+            const name = document.getElementById("name").value.trim();
+            if (name === "") {
+                document.getElementById("nameError").innerText = "Name is required";
+                isValid = false;
+            }
+
+            // email validation
+            const email = document.getElementById("email").value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText = "Invalid email format";
+                isValid = false;
+            }
+
+            // age validation
+            const age = document.getElementById("age").value.trim();
+            const agePattern = /^(1[89]|[2-9]\d)$/; // 18 - 99
+            if (!agePattern.test(age)) {
+                document.getElementById("ageError").innerText = "Enter valid age (18-99)";
+                isValid = false;
+            }
+
+            // gender validation
+            const gender = document.getElementById("gender").value;
+            if (gender === "") {
+                document.getElementById("genderError").innerText = "Please select gender";
+                isValid = false;
+            }
+
+            // password validation
+            const password = document.getElementById("password").value;
+            if (password.length < 6) {
+                document.getElementById("passwordError").innerText = "Password must be at least 6 characters";
+                isValid = false;
+            }
+
+            // confirm password validation
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            if (password !== confirmPassword) {
+                document.getElementById("confirmPasswordError").innerText = "Passwords do not match";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        input {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+            width: 300px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Registration Form</h2>
+    <form id="myForm" onsubmit="return validateForm()">
+        <label>Name:</label>
+        <input type="text" id="name" name="name">
+        <span class="error" id="nameError"></span>
+        <br> <br>
+
+        <label>Email:</label>
+        <input type="text" id="email" name="email">
+        <span class="error" id="emailError"></span>
+        <br> <br>
+
+        <label>Age:</label>
+        <input type="text" id="age" name="age">
+        <span class="error" id="ageError"></span>
+        <br> <br>
+
+        <label>Gender:</label>
+        <input type="radio" id="gender" name="gender">
+        <span class="error" id="genderError"></span>
+        <br> <br>
+
+
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            // Clear previous errors
+            document.getElementById("nameError").innerText = "";
+            document.getElementById("emailError").innerText = "";
+            document.getElementById("ageError").innerText = "";
+            document.getElementById("genderError").innerText = "";
+            document.getElementById("passwordError").innerText = "";
+            document.getElementById("confirmpasswordError").innerText = "";
+
+
+
+            let isValid = true;
+            // Name validation
+            const name = document.getElementById("name").value.trim();
+            if (name === "") {
+                document.getElementById("nameError").innerText = "Name is required";
+                isValid = false;
+            }
+
+            // Email validation
+            const email = document.getElementById("email").value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailError").innerText = "Invalid email format";
+                isValid = false;
+            }
+
+        }
